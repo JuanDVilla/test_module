@@ -1,0 +1,24 @@
+test_module.formulario:
+  path: '/test/formulario'
+  defaults:
+    _title: 'Registro'
+    _form: 'Drupal\test_module\Form\Formulario'
+  requirements:
+    _permission: 'access content'
+
+data:
+  path: '/test/formulario/data'
+  defaults:
+    _title: 'Data'
+    _controller: '\Drupal\test_module\Controller\Controller::Data'
+  requirements:
+    _permission: 'access content'
+    
+endpointData:
+  path: '/API/formulario/{actualPage}'
+  defaults:
+    _controller: '\Drupal\test_module\Controller\Controller::endPointData'
+    actualPage: 0
+  methods: ['GET']
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,335 @@
+<?php declare(strict_types = 1);
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Test module module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_install().
+ */
+function test_module_install(): void {
+
+  $documents_type = [
+    'vid' => 'types_documents',
+    'name' => 'Types of Documents',
+    'description' => 'Types of Documents',
+  ];
+
+  $documents = Vocabulary::create($documents_type);
+  $documents->save();
+
+  $terms = [
+    'CC',
+    'TI',
+    'PP',
+    'PE',
+  ];
+  foreach ($terms as $term_name) {
+    $term = Term::create([
+      'vid' => $documents->id(),
+      'name' => $term_name,
+    ]);
+    $term->save();
+  }  
+
+  $countries_list = [
+    'vid' => 'countries',
+    'name' => 'Countries',
+    'description' => 'Countries',
+  ];
+
+  $countries = Vocabulary::create($countries_list);
+  $countries->save();
+
+  $paises = [
+    "Afghanistan" => "Afganistán",
+    "Albania" => "Albania",
+    "Algeria" => "Argelia",
+    "Andorra" => "Andorra",
+    "Angola" => "Angola",
+    "Antigua and Barbuda" => "Antigua y Barbuda",
+    "Argentina" => "Argentina",
+    "Armenia" => "Armenia",
+    "Australia" => "Australia",
+    "Austria" => "Austria",
+    "Azerbaijan" => "Azerbaiyán",
+    "Bahamas" => "Bahamas",
+    "Bahrain" => "Baréin",
+    "Bangladesh" => "Bangladés",
+    "Barbados" => "Barbados",
+    "Belarus" => "Bielorrusia",
+    "Belgium" => "Bélgica",
+    "Belize" => "Belice",
+    "Benin" => "Benín",
+    "Bhutan" => "Bután",
+    "Bolivia" => "Bolivia",
+    "Bosnia and Herzegovina" => "Bosnia y Herzegovina",
+    "Botswana" => "Botsuana",
+    "Brazil" => "Brasil",
+    "Brunei" => "Brunéi",
+    "Bulgaria" => "Bulgaria",
+    "Burkina Faso" => "Burkina Faso",
+    "Burundi" => "Burundi",
+    "Cambodia" => "Camboya",
+    "Cameroon" => "Camerún",
+    "Canada" => "Canadá",
+    "Cape Verde" => "Cabo Verde",
+    "Central African Republic" => "República Centroafricana",
+    "Chad" => "Chad",
+    "Chile" => "Chile",
+    "China" => "China",
+    "Colombia" => "Colombia",
+    "Comoros" => "Comoras",
+    "Congo" => "Congo",
+    "Congo, Democratic Republic of the" => "República Democrática del Congo",
+    "Costa Rica" => "Costa Rica",
+    "Côte d'Ivoire" => "Costa de Marfil",
+    "Croatia" => "Croacia",
+    "Cuba" => "Cuba",
+    "Cyprus" => "Chipre",
+    "Czech Republic" => "República Checa",
+    "Denmark" => "Dinamarca",
+    "Djibouti" => "Yibuti",
+    "Dominica" => "Dominica",
+    "Dominican Republic" => "República Dominicana",
+    "East Timor" => "Timor Oriental",
+    "Ecuador" => "Ecuador",
+    "Egypt" => "Egipto",
+    "El Salvador" => "El Salvador",
+    "England" => "Inglaterra",
+    "Equatorial Guinea" => "Guinea Ecuatorial",
+    "Eritrea" => "Eritrea",
+    "Estonia" => "Estonia",
+    "Eswatini" => "Eswatini",
+    "Ethiopia" => "Etiopía",
+    "Federated States of Micronesia" => "Estados Federados de Micronesia",
+    "Fiji" => "Fiyi",
+    "Finland" => "Finlandia",
+    "France" => "Francia",
+    "Gabon" => "Gabón",
+    "Gambia" => "Gambia",
+    "Georgia" => "Georgia",
+    "Germany" => "Alemania",
+    "Ghana" => "Ghana",
+    "Greece" => "Grecia",
+    "Grenada" => "Granada",
+    "Guatemala" => "Guatemala",
+    "Guinea" => "Guinea",
+    "Guinea-Bissau" => "Guinea-Bissau",
+    "Guyana" => "Guyana",
+    "Haiti" => "Haití",
+    "Honduras" => "Honduras",
+    "Hungary" => "Hungría",
+    "Iceland" => "Islandia",
+    "India" => "India",
+    "Indonesia" => "Indonesia",
+    "Iran" => "Irán",
+    "Iraq" => "Irak",
+    "Ireland" => "Irlanda",
+    "Israel" => "Israel",
+    "Italy" => "Italia",
+    "Jamaica" => "Jamaica",
+    "Japan" => "Japón",
+    "Jordan" => "Jordania",
+    "Kazakhstan" => "Kazajistán",
+    "Kenya" => "Kenia",
+    "Kiribati" => "Kiribati",
+    "North Korea" => "Corea del Norte",
+    "South Korea" => "Corea del Sur",
+    "Kuwait" => "Kuwait",
+    "Kyrgyzstan" => "Kirguistán",
+    "Laos" => "Laos",
+    "Latvia" => "Letonia",
+    "Lebanon" => "Líbano",
+    "Lesotho" => "Lesoto",
+    "Liberia" => "Liberia",
+    "Libya" => "Libia",
+    "Liechtenstein" => "Liechtenstein",
+    "Lithuania" => "Lituania",
+    "Luxembourg" => "Luxemburgo",
+    "Macedonia" => "Macedonia del Norte",
+    "Madagascar" => "Madagascar",
+    "Malawi" => "Malaui",
+    "Malaysia" => "Malasia",
+    "Maldives" => "Maldivas",
+    "Mali" => "Malí",
+    "Malta" => "Malta",
+    "Marshall Islands" => "Islas Marshall",
+    "Mauritania" => "Mauritania",
+    "Mauritius" => "Mauricio",
+    "Mexico" => "México",
+    "Micronesia" => "Micronesia",
+    "Moldova" => "Moldavia",
+    "Monaco" => "Mónaco",
+    "Mongolia" => "Mongolia",
+    "Montenegro" => "Montenegro",
+    "Morocco" => "Marruecos",
+    "Mozambique" => "Mozambique",
+    "Myanmar" => "Myanmar",
+    "Namibia" => "Namibia",
+    "Nauru" => "Nauru",
+    "Nepal" => "Nepal",
+    "Netherlands" => "Países Bajos",
+    "New Zealand" => "Nueva Zelanda",
+    "Nicaragua" => "Nicaragua",
+    "Niger" => "Níger",
+    "Nigeria" => "Nigeria",
+    "Norway" => "Noruega",
+    "Oman" => "Omán",
+    "Pakistan" => "Pakistán",
+    "Palau" => "Palaos",
+    "Palestine" => "Palestina",
+    "Panama" => "Panamá",
+    "Papua New Guinea" => "Papúa Nueva Guinea",
+    "Paraguay" => "Paraguay",
+    "Peru" => "Perú",
+    "Philippines" => "Filipinas",
+    "Poland" => "Polonia",
+    "Portugal" => "Portugal",
+    "Qatar" => "Qatar",
+    "Romania" => "Rumanía",
+    "Russia" => "Rusia",
+    "Rwanda" => "Ruanda",
+    "Saint Kitts and Nevis" => "San Cristóbal y Nieves",
+    "Saint Lucia" => "Santa Lucía",
+    "Saint Vincent and the Grenadines" => "San Vicente y las Granadinas",
+    "Samoa" => "Samoa",
+    "San Marino" => "San Marino",
+    "Sao Tome and Principe" => "Santo Tomé y Príncipe",
+    "Saudi Arabia" => "Arabia Saudita",
+    "Scotland" => "Escocia",
+    "Senegal" => "Senegal",
+    "Serbia" => "Serbia",
+    "Seychelles" => "Seychelles",
+    "Sierra Leone" => "Sierra Leona",
+    "Singapore" => "Singapur",
+    "Slovakia" => "Eslovaquia",
+    "Slovenia" => "Eslovenia",
+    "Solomon Islands" => "Islas Salomón",
+    "Somalia" => "Somalia",
+    "South Africa" => "Sudáfrica",
+    "South Sudan" => "Sudán del Sur",
+    "Spain" => "España",
+    "Sri Lanka" => "Sri Lanka",
+    "Sudan" => "Sudán",
+    "Suriname" => "Surinam",
+    "Swaziland" => "Eswatini",
+    "Sweden" => "Suecia",
+    "Switzerland" => "Suiza",
+    "Syria" => "Siria",
+    "Taiwan" => "Taiwán",
+    "Tajikistan" => "Tayikistán",
+    "Tanzania" => "Tanzania",
+    "Thailand" => "Tailandia",
+    "Togo" => "Togo",
+    "Tonga" => "Tonga",
+    "Trinidad and Tobago" => "Trinidad y Tobago",
+    "Tunisia" => "Túnez",
+    "Türkiye" => "Turquía",
+    "Turkmenistan" => "Turkmenistán",
+    "Tuvalu" => "Tuvalu",
+    "Uganda" => "Uganda",
+    "Ukraine" => "Ucrania",
+    "United Arab Emirates" => "Emiratos Árabes Unidos",
+    "United Kingdom" => "Reino Unido",
+    "United States" => "Estados Unidos",
+    "Uruguay" => "Uruguay",
+    "Uzbekistan" => "Uzbekistán",
+    "Vanuatu" => "Vanuatu",
+    "Vatican City" => "Ciudad del Vaticano",
+    "Venezuela" => "Venezuela",
+    "Vietnam" => "Vietnam",
+    "Wales" => "Gales",
+    "Yemen" => "Yemen",
+    "Zambia" => "Zambia",
+    "Zimbabwe" => "Zimbabue"
+  ];
+
+  foreach ($paises as $term_name) {
+    $term = Term::create([
+      'vid' => $countries->id(),
+      'name' => $term_name,
+    ]);
+    $term->save();
+  }  
+
+  \Drupal::messenger()->addStatus('Module Test module has been installed.');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function test_module_uninstall(): void {
+
+  $documents = Vocabulary::load('types_documents');
+  if ($documents) {
+    $documents->delete();
+  }
+
+  $countries = Vocabulary::load('countries');
+  if ($countries) {
+    $countries->delete();
+  }
+
+  \Drupal::messenger()->addStatus('Module Test module has been uninstalled.');
+}
+
+function test_module_schema(){
+  $schema = array();
+
+  // Define la estructura de la tabla.
+  $schema['test_module_register'] = [
+    'description' => 'Info Users',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'ID de la tabla',
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'lastname' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'document_type' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'document' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'phone' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      'country' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,        
+      ],
+      // Agrega más campos si es necesario.
+    ],
+    'primary key' => array('id'),
+  ];
+
+  return $schema;
+}
