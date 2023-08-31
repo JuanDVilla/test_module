@@ -81,9 +81,18 @@ final class Controller extends ControllerBase {
     return  $form;
   }
 
-  public function endPointData($actualPage) {
-    $data = $this->database->select('test_module_register', 'TMR')->fields('TMR', [])->execute()->fetchAll();
+  public function endPointData() {
 
+    $fieldFilter = \Drupal::request()->query->get('fieldFilter') ?? 'name';
+    $filter = \Drupal::request()->query->get('filter') ?? '';
+
+    $data = $this->database->select('test_module_register', 'TMR')->fields('TMR', []);
+    if($filter) {
+      $data->condition('TMR.'.$fieldFilter, $filter . '%', 'LIKE');
+    }
+    $data = $data->execute()->fetchAll();
+
+    $actualPage = \Drupal::request()->query->get('page') ?? 0;
     $page = [
       '0' => 10,
       '1' => 50,
