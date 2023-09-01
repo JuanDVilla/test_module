@@ -15,7 +15,7 @@ data:
     _permission: 'access content'
     
 endpointData:
-  path: '/API/formulario/'
+  path: '/API/formulario'
   defaults:
     _controller: '\Drupal\test_module\Controller\Controller::endPointData'
   methods: ['GET']
