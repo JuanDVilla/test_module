@@ -21,3 +21,11 @@ endpointData:
   methods: ['GET']
   requirements:
     _permission: 'access content'
+
+insertData:
+  path: '/insert'
+  defaults:
+    _controller: '\Drupal\test_module\Controller\Controller::insertData'
+  methods: ['GET']
+  requirements:
+    _permission: 'access content'

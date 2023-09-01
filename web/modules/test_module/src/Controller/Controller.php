@@ -7,6 +7,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Faker\Factory;
 
 /**
  * Returns responses for test_module routes.
@@ -108,5 +109,30 @@ final class Controller extends ControllerBase {
     ];
     $response = [$array, $info];
     return new JsonResponse($response);   
+  }
+
+  public function insertData(){
+
+    $faker = Factory::create(Factory::DEFAULT_LOCALE);  
+    $terms = [
+      'CC',
+      'TI',
+      'PP',
+      'PE',
+    ];
+    for ($i=0; $i < 250; $i++) { 
+      $data = [      
+          'name' => $faker->name,
+          'lastname' => $faker->lastName,
+          'document_type' => $terms[rand(0, 3)],
+          'document' => mt_rand(1000000000, 9999999999),
+          'email' => $faker->email,
+          'phone' => mt_rand(1000000000, 9999999999),
+          'country' => $faker->country,       
+      ];   
+      $this->database->insert('test_module_register')->fields($data)->execute();
+    } 
+
+    dd("listo");
   }
 }
