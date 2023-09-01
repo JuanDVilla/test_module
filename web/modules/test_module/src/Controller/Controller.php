@@ -83,24 +83,30 @@ final class Controller extends ControllerBase {
 
   public function endPointData() {
 
-    $fieldFilter = \Drupal::request()->query->get('fieldFilter') ?? 'name';
-    $filter = \Drupal::request()->query->get('filter') ?? '';
-
+    $fieldFilter = \Drupal::request()->query->get('fieldFilter') == '' ? 'name' : \Drupal::request()->query->get('fieldFilter');
+    $filter = \Drupal::request()->query->get('filter') == '' ? '' : \Drupal::request()->query->get('filter');
+    $amountRegister = \Drupal::request()->query->get('amount') ?? 10;
+    $actualPage = \Drupal::request()->query->get('actualPage') ?? 1;
+    
     $data = $this->database->select('test_module_register', 'TMR')->fields('TMR', []);
     if($filter) {
       $data->condition('TMR.'.$fieldFilter, $filter . '%', 'LIKE');
     }
     $data = $data->execute()->fetchAll();
 
-    $actualPage = \Drupal::request()->query->get('page') ?? 0;
-    $page = [
-      '0' => 10,
-      '1' => 50,
-      '2' => 100,
+    $totalPages = ceil(count($data) / $amountRegister);
+    $nextPage = $actualPage == $totalPages ? 0 : $actualPage + 1;
+    $previusPage = $actualPage == 1 ? 0 : $actualPage - 1;    
+    
+    $array = array_slice($data, (($amountRegister * $actualPage) - $amountRegister), (int)$amountRegister);
+    $info = (object) [
+      'amount' => count($array),
+      'totalPages' => $totalPages,
+      'nextPage' => $nextPage,
+      'previusPage' => $previusPage,
+      'actualPage' => $actualPage,
     ];
-    
-    $array = array_slice($data, 0, $page[$actualPage]);
-    
-    return new JsonResponse($array);   
+    $response = [$array, $info];
+    return new JsonResponse($response);   
   }
 }
